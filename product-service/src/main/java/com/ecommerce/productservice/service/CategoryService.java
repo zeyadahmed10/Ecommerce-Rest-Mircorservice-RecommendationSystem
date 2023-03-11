@@ -6,6 +6,7 @@ import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,5 +16,20 @@ public class CategoryService {
 
     public Optional<Category> getCategory(Long categoryId) {
         return categoryRepository.findById(categoryId);
+    }
+    public Optional<Category> getCategory(String categoryName) {
+        return categoryRepository.findByName(categoryName);
+    }
+    public List<Category> getCategories() {
+        return categoryRepository.findAll();
+    }
+    public void deleteCategory(Long categoryId){
+        categoryRepository.deleteById(categoryId);
+    }
+    public void deleteCategory(String categoryName){
+        categoryRepository.deleteByName(categoryName);
+    }
+    public Category addCategory(Category category){
+        return categoryRepository.save(category);
     }
 }
