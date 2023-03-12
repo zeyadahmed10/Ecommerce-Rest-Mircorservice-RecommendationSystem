@@ -25,12 +25,13 @@ public class CategoryService {
             return categoryRepository.findAllByName(categoryName);
         return categoryRepository.findAll();
     }
-    public void deleteCategory(Long categoryId){
+    public boolean deleteCategory(Long categoryId){
+        if(categoryRepository.findById(categoryId).isEmpty())
+            return false;
         categoryRepository.deleteById(categoryId);
+        return true;
     }
-    public void deleteCategory(String categoryName){
-        categoryRepository.deleteByName(categoryName);
-    }
+
     public Category addCategory(Category category){
         return categoryRepository.save(category);
     }

@@ -28,9 +28,7 @@ public class AdminCategoryController {
     }
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-        Optional<Category> category = categoryService.getCategory(id);
-        if(category.isPresent()) {
-            categoryService.deleteCategory(id);
+        if(categoryService.deleteCategory(id)) {
             return new ResponseEntity<>(headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
         }
         return new ResponseEntity<>(headerGenerator.getHeadersForError(), HttpStatus.NOT_FOUND);
