@@ -1,9 +1,8 @@
 package com.ecommerce.productservice.service;
 
-import com.ecommerce.productservice.exception.CategoryNotFoundException;
+import com.ecommerce.productservice.exception.ResourceNotFoundException;
 import com.ecommerce.productservice.model.Category;
 import com.ecommerce.productservice.repository.CategoryRepository;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,10 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public Optional<Category> getCategory(Long categoryId) {
-        return categoryRepository.findById(categoryId);
+        Optional<Category> category =categoryRepository.findById(categoryId);
+        if(category.isEmpty())
+            throw new ResourceNotFoundException("Category not found with id: "+ categoryId);
+        return category;
     }
     public Optional<Category> getCategory(String categoryName) {
         return categoryRepository.findByName(categoryName);
@@ -28,7 +30,7 @@ public class CategoryService {
     }
     public void deleteCategory(Long categoryId){
         if(categoryRepository.findById(categoryId).isEmpty())
-            throw new CategoryNotFoundException("Category not found with id: "+ categoryId);
+            throw new ResourceNotFoundException("Category not found with id: "+ categoryId);
         categoryRepository.deleteById(categoryId);
     }
 

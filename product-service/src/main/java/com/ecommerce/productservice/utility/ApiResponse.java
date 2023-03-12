@@ -15,4 +15,8 @@ public class ApiResponse {
         this.data = data;
         this.time = java.time.OffsetDateTime.now();
     }
+    public ApiResponse(String message){
+        this.message = message;
+        this.time = java.time.OffsetDateTime.now();
+    }
 }

@@ -1,6 +1,6 @@
 package com.ecommerce.productservice.controller;
 
-import com.ecommerce.productservice.http.header.HeaderGenerator;
+import com.ecommerce.productservice.utility.HeaderGenerator;
 import com.ecommerce.productservice.model.Product;
 import com.ecommerce.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

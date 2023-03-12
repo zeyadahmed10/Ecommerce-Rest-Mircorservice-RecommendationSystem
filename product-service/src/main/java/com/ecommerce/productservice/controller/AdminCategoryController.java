@@ -1,6 +1,6 @@
 package com.ecommerce.productservice.controller;
 
-import com.ecommerce.productservice.http.header.HeaderGenerator;
+import com.ecommerce.productservice.utility.HeaderGenerator;
 import com.ecommerce.productservice.model.Category;
 import com.ecommerce.productservice.service.CategoryService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/admin/category")

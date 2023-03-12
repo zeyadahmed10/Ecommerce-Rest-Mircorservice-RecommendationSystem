@@ -1,4 +1,4 @@
-package com.ecommerce.productservice.http.header;
+package com.ecommerce.productservice.utility;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
