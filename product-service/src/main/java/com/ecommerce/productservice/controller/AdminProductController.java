@@ -1,2 +1,4 @@
-package com.ecommerce.productservice.controller;public class AdminProductController {
+package com.ecommerce.productservice.controller;
+
+public class AdminProductController {
 }

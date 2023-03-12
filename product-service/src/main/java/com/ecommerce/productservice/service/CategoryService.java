@@ -20,7 +20,9 @@ public class CategoryService {
     public Optional<Category> getCategory(String categoryName) {
         return categoryRepository.findByName(categoryName);
     }
-    public List<Category> getCategories() {
+    public List<Category> getCategories(String categoryName) {
+        if (categoryName !=null)
+            return categoryRepository.findAllByName(categoryName);
         return categoryRepository.findAll();
     }
     public void deleteCategory(Long categoryId){
