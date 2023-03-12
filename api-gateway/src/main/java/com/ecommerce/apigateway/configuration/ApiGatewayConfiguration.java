@@ -11,6 +11,8 @@ public class ApiGatewayConfiguration {
     public RouteLocator gatewayRouter(RouteLocatorBuilder builder) throws Exception {
         return builder.routes()
                 .route(p-> p.path("/api/v1/category/**").uri("lb://product-service"))
+                .route(p-> p.path("/api/v1/admin/category/**").uri("lb://product-service"))
+                .route(p-> p.path("/api/v1/admin/product/**").uri("lb://product-service"))
                 .route(p-> p.path("/api/v1/product/**").uri("lb://product-service")).build();
     }
 }
