@@ -1,5 +1,6 @@
 package com.ecommerce.productservice.service;
 
+import com.ecommerce.productservice.exception.CategoryNotFoundException;
 import com.ecommerce.productservice.model.Category;
 import com.ecommerce.productservice.repository.CategoryRepository;
 import com.netflix.discovery.converters.Auto;
@@ -25,11 +26,10 @@ public class CategoryService {
             return categoryRepository.findAllByName(categoryName);
         return categoryRepository.findAll();
     }
-    public boolean deleteCategory(Long categoryId){
+    public void deleteCategory(Long categoryId){
         if(categoryRepository.findById(categoryId).isEmpty())
-            return false;
+            throw new CategoryNotFoundException("Category not found with id: "+ categoryId);
         categoryRepository.deleteById(categoryId);
-        return true;
     }
 
     public Category addCategory(Category category){
