@@ -1,6 +1,7 @@
 package com.ecommerce.productservice.controller;
 
 import com.ecommerce.productservice.dto.ProductDto;
+import com.ecommerce.productservice.utility.ApiResponse;
 import com.ecommerce.productservice.utility.HeaderGenerator;
 import com.ecommerce.productservice.model.Product;
 import com.ecommerce.productservice.service.ProductService;
@@ -22,14 +23,13 @@ public class AdminProductController {
     @PostMapping
     public ResponseEntity<?> addProduct(@Valid @RequestBody ProductDto product, HttpServletRequest request) throws Exception {
         Product savedProduct = productService.addProduct(product);
-        return new ResponseEntity<>(savedProduct,headerGenerator.getHeadersForSuccessPostMethod(request,savedProduct.getId())
+        return new ResponseEntity<>(new ApiResponse("Succeed",savedProduct),headerGenerator.getHeadersForSuccessPostMethod(request,savedProduct.getId())
                 , HttpStatus.CREATED);
     }
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        if(productService.deleteProduct(id)){
-            return new ResponseEntity<>(headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(headerGenerator.getHeadersForError(), HttpStatus.NOT_FOUND);
+        productService.deleteProduct(id);
+        return new ResponseEntity<>(new ApiResponse("Succeed"),headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
+
     }
 }

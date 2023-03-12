@@ -1,6 +1,7 @@
 package com.ecommerce.productservice.service;
 
 import com.ecommerce.productservice.dto.ProductDto;
+import com.ecommerce.productservice.exception.ResourceNotFoundException;
 import com.ecommerce.productservice.model.Category;
 import com.ecommerce.productservice.model.Product;
 import com.ecommerce.productservice.repository.CategoryRepository;
@@ -20,33 +21,29 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Optional<Product> getProduct(Long productId){
-        return productRepository.findById(productId);
+    public Product getProduct(Long productId){
+
+        Optional<Product> product = productRepository.findById(productId);
+        if(product.isEmpty())
+            throw new ResourceNotFoundException("Product not found with id " + productId);
+        return product.get();
     }
     public List<Product> getProducts(String name){
         if(name !=null){
-            productRepository.findAllByName(name);
+            return productRepository.findAllByName(name);
         }
         return productRepository.findAll();
 
     }
     public List<Product> getProductByCategory(String categoryName){
-        Optional<Category> category = categoryService.getCategory(categoryName);
-        if(category.isPresent()){
-            return productRepository.findAllByCategory(category.get());
-        }
-        return null;
+        Category category = categoryService.getCategory(categoryName);
+        return productRepository.findAllByCategory(category);
     }
-    public Product addProduct(ProductDto productDto) throws Exception {
-        Optional<Category> category = categoryService.getCategory(productDto.getCategoryId());
-        if(category.isEmpty())
-            throw new Exception("Category not found with id:  " + productDto.getCategoryId());
-        return productRepository.save(productDto.productBuilder(category.get()));
+    public Product addProduct(ProductDto productDto){
+        Category category = categoryService.getCategory(productDto.getCategoryId());
+        return productRepository.save(productDto.productBuilder(category));
     }
-    public boolean deleteProduct(Long productId){
-        if(productRepository.findById(productId).isEmpty())
-            return false;
+    public void deleteProduct(Long productId){
         productRepository.deleteById(productId);
-        return true;
     }
 }

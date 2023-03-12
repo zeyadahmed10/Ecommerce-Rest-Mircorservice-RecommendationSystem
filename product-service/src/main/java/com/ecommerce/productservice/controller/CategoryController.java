@@ -29,8 +29,8 @@ public class CategoryController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategory(@PathVariable Long id){
-        Optional<Category> category = categoryService.getCategory(id);
-        return new ResponseEntity<>(new ApiResponse("Succeed", category.get()),headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
+        Category category = categoryService.getCategory(id);
+        return new ResponseEntity<>(new ApiResponse("Succeed", category),headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
     }
 
 }

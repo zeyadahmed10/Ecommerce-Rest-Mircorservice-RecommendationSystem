@@ -1,5 +1,6 @@
 package com.ecommerce.productservice.controller;
 
+import com.ecommerce.productservice.utility.ApiResponse;
 import com.ecommerce.productservice.utility.HeaderGenerator;
 import com.ecommerce.productservice.model.Product;
 import com.ecommerce.productservice.service.ProductService;
@@ -21,24 +22,18 @@ public class ProductController {
     public ResponseEntity<?> getCategories(@RequestParam(name="name",required = false) String name) {
         List<Product> products = productService.getProducts(name);
         if(!products.isEmpty()){
-            return new ResponseEntity<>(products,headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse("Succeed",products),headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(headerGenerator.getHeadersForError(),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse("Not Found"),headerGenerator.getHeadersForError(),HttpStatus.NOT_FOUND);
     }
     @GetMapping(params = "category")
     public ResponseEntity<?> getProductByCategory(@RequestParam ("category") String category){
         List<Product> products = productService.getProductByCategory(category);
-        if(products !=null || !products.isEmpty()){
-            return new ResponseEntity<>(products,headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(headerGenerator.getHeadersForError(),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse("Succeed",products),headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getProduct(@PathVariable Long id){
-        Optional<Product> product = productService.getProduct(id);
-        if(product.isPresent()){
-            return new ResponseEntity<>(product,headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(headerGenerator.getHeadersForError(),HttpStatus.NOT_FOUND);
+        Product product = productService.getProduct(id);
+        return new ResponseEntity<>(new ApiResponse("Succeed",product),headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
     }
 }

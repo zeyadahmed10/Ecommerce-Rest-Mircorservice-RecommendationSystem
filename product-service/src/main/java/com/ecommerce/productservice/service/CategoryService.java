@@ -14,14 +14,17 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Optional<Category> getCategory(Long categoryId) {
+    public Category getCategory(Long categoryId) {
         Optional<Category> category =categoryRepository.findById(categoryId);
         if(category.isEmpty())
             throw new ResourceNotFoundException("Category not found with id: "+ categoryId);
-        return category;
+        return category.get();
     }
-    public Optional<Category> getCategory(String categoryName) {
-        return categoryRepository.findByName(categoryName);
+    public Category getCategory(String categoryName) {
+        Optional<Category> category = categoryRepository.findByName(categoryName);
+        if(category.isEmpty())
+            throw new ResourceNotFoundException("Category not found with name: "+ categoryName);
+        return category.get();
     }
     public List<Category> getCategories(String categoryName) {
         if (categoryName !=null)
