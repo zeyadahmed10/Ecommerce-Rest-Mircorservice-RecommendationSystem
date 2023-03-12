@@ -2,8 +2,6 @@ package com.ecommerce.productservice.dto;
 
 import com.ecommerce.productservice.model.Category;
 import com.ecommerce.productservice.model.Product;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +19,7 @@ public class ProductDto {
     @NotNull
     @Min(value = 0L, message = "The value must be positive")
     private Double price;
-    @NotNull
+    @NotNull(message= "Product must have category number")
     private Long categoryId;
 
     public Product productBuilder(Category category){
