@@ -4,8 +4,9 @@ import com.ecommerce.authservice.dto.SigninRequest;
 import com.ecommerce.authservice.dto.UserDto;
 import com.ecommerce.authservice.keycloak.KeycloakConfig;
 import com.ecommerce.authservice.service.KeycloakService;
-import com.ecommerce.authservice.utility.ApiResponse;
 import jakarta.validation.Valid;
+import org.keycloak.representations.idm.ClientRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -14,7 +15,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -27,8 +29,8 @@ public class AuthController {
     private String loginUrl;
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody @Valid UserDto userDto){
-        Response response = service.addUser(userDto);
-        return new ResponseEntity<>(response.getEntity(), HttpStatusCode.valueOf(response.getStatus()));
+        service.addUser(userDto);
+        return new ResponseEntity<>("Created successfully", HttpStatusCode.valueOf(201));
     }
     @PostMapping("/signin")
     public ResponseEntity<Object> signin(@RequestBody @Valid SigninRequest signinRequest){
@@ -50,6 +52,6 @@ public class AuthController {
         }catch(Exception ex){
             throw ex;
         }
-
     }
+
 }
