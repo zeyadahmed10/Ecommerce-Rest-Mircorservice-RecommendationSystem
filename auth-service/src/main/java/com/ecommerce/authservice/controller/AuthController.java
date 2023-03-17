@@ -31,10 +31,11 @@ public class AuthController {
     }
     @PostMapping("/signin")
     public ResponseEntity<Object> signin(@RequestBody @Valid SigninRequest signinRequest){
+        //creating headers for request
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED.toString());
         headers.add("Accept", MediaType.APPLICATION_JSON.toString()); //Optional in case server sends back JSON data
-
+        //creating body for request
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
         requestBody.add("grant_type", "password");
         requestBody.add("username", signinRequest.getUsername());
@@ -43,13 +44,11 @@ public class AuthController {
         requestBody.add("client_secret", KeycloakConfig.CLIENT_SECRET);
 
         HttpEntity formEntity = new HttpEntity<MultiValueMap<String, String>>(requestBody, headers);
-        ResponseEntity<Object> response = null;
         try{
-            restTemplate.exchange(loginUrl, HttpMethod.POST, formEntity, Object.class);
+            return restTemplate.exchange(loginUrl, HttpMethod.POST, formEntity, Object.class);
         }catch(Exception ex){
             throw new RuntimeException(ex.getMessage());
         }
 
-        return response;
     }
 }
