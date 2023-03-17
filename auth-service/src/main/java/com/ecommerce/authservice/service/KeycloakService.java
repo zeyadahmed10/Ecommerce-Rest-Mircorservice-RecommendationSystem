@@ -45,7 +45,11 @@ public class KeycloakService {
         );
         user.roles().clientLevel(client_id).add(roleToAdd);
     }
-
+    public boolean checkRole(String rolename){
+        if(rolename.isEmpty()||rolename == null)
+            return false;
+        return (rolename.equalsIgnoreCase("admin") || rolename.equalsIgnoreCase("user"));
+    }
     public void addUser(UserDto userDto) {
         try{
             CredentialRepresentation credential = Credentials
@@ -61,7 +65,9 @@ public class KeycloakService {
             var response =instance.create(user);
             if(response.getStatus()>=300||response.getStatus()<200)
                 throw new RuntimeException("Error while creating the user: ");
-            addRealmRoleToUser(userDto.getUsername(),"user");
+            if(!checkRole(userDto.getRole()))
+                userDto.setRole("user");
+            addRealmRoleToUser(userDto.getUsername(),userDto.getRole());
 
 
         }
