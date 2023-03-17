@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/admin/product")
-@PreAuthorize("hasAuthority('admin')")
+@PreAuthorize("hasAuthority('ROLE_admin')")
 public class AdminProductController {
     @Autowired
     ProductService productService;
