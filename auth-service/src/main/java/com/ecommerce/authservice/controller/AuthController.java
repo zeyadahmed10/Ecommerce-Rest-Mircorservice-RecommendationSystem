@@ -4,6 +4,7 @@ import com.ecommerce.authservice.dto.SigninRequest;
 import com.ecommerce.authservice.dto.UserDto;
 import com.ecommerce.authservice.keycloak.KeycloakConfig;
 import com.ecommerce.authservice.service.KeycloakService;
+import com.ecommerce.authservice.utility.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +48,7 @@ public class AuthController {
         try{
             return restTemplate.exchange(loginUrl, HttpMethod.POST, formEntity, Object.class);
         }catch(Exception ex){
-            throw new RuntimeException(ex.getMessage());
+            throw ex;
         }
 
     }
