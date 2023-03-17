@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/admin/category")
-@PreAuthorize("hasAuthority('admin')")
+@PreAuthorize("hasAuthority('ROLE_admin')")
 public class AdminCategoryController {
     @Autowired
     CategoryService categoryService;
