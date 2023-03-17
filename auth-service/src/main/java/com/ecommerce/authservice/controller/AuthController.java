@@ -2,8 +2,11 @@ package com.ecommerce.authservice.controller;
 
 import com.ecommerce.authservice.dto.SigninRequest;
 import com.ecommerce.authservice.dto.UserDto;
+import com.ecommerce.authservice.keycloak.KeycloakConfig;
 import com.ecommerce.authservice.service.KeycloakService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -19,13 +22,15 @@ public class AuthController {
     KeycloakService service;
     @Autowired
     RestTemplate restTemplate;
+    @Value("${keycloak.loginUrl}")
+    private String loginUrl;
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserDto userDto){
+    public ResponseEntity<?> signup(@RequestBody @Valid UserDto userDto){
         Response response = service.addUser(userDto);
         return new ResponseEntity<>(response.getEntity(), HttpStatusCode.valueOf(response.getStatus()));
     }
     @PostMapping("/signin")
-    public ResponseEntity<Object> signin(@RequestBody SigninRequest signinRequest){
+    public ResponseEntity<Object> signin(@RequestBody @Valid SigninRequest signinRequest){
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED.toString());
         headers.add("Accept", MediaType.APPLICATION_JSON.toString()); //Optional in case server sends back JSON data
@@ -34,13 +39,17 @@ public class AuthController {
         requestBody.add("grant_type", "password");
         requestBody.add("username", signinRequest.getUsername());
         requestBody.add("password", signinRequest.getPassword());
-        requestBody.add("client_id", "ecommerce-auth");
-        requestBody.add("client_secret", "lmXRK4udDbxWSAOzpirhmSdLH4h0Cu6T");
+        requestBody.add("client_id", KeycloakConfig.CLIENT_ID);
+        requestBody.add("client_secret", KeycloakConfig.CLIENT_SECRET);
 
         HttpEntity formEntity = new HttpEntity<MultiValueMap<String, String>>(requestBody, headers);
+        ResponseEntity<Object> response = null;
+        try{
+            restTemplate.exchange(loginUrl, HttpMethod.POST, formEntity, Object.class);
+        }catch(Exception ex){
+            throw new RuntimeException(ex.getMessage());
+        }
 
-        ResponseEntity<Object> response =
-                restTemplate.exchange("http://localhost:8080/realms/ecommerce-micro/protocol/openid-connect/token", HttpMethod.POST, formEntity, Object.class);
         return response;
     }
 }

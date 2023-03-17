@@ -5,15 +5,18 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 
-public class KeycloakConfig {
-    static Keycloak keycloak = null;
-    final static String serverUrl = "http://localhost:8080";
-    public final static String realm = "ecommerce-micro";
-    final static String clientId = "ecommerce-auth";
-    final static String clientSecret = "lmXRK4udDbxWSAOzpirhmSdLH4h0Cu6T";
-    final static String username = "admin-micro";
-    final static String password = "password";
+import static org.keycloak.OAuth2Constants.CLIENT_SECRET;
 
+public class KeycloakConfig {
+
+    //static members
+    static Keycloak keycloak = null;
+    final static String SERVER_URL = "http://localhost:8080";
+    public final static String REALM = "ecommerce-micro";
+    public final static String CLIENT_ID = "ecommerce-auth";
+    public final static String CLIENT_SECRET = "lmXRK4udDbxWSAOzpirhmSdLH4h0Cu6T";
+    final static String USERNAME = "admin-micro";
+    final static String PASSWORD = "password";
 
     public KeycloakConfig() {
     }
@@ -22,13 +25,13 @@ public class KeycloakConfig {
         if(keycloak == null){
 
             keycloak = KeycloakBuilder.builder()
-                    .serverUrl(serverUrl)
-                    .realm(realm)
+                    .serverUrl(SERVER_URL)
+                    .realm(REALM)
                     .grantType(OAuth2Constants.PASSWORD)
-                    .username(username)
-                    .password(password)
-                    .clientId(clientId)
-                    .clientSecret(clientSecret)
+                    .username(USERNAME)
+                    .password(PASSWORD)
+                    .clientId(CLIENT_ID)
+                    .clientSecret(CLIENT_SECRET)
                     .resteasyClient(new ResteasyClientBuilderImpl()
                             .connectionPoolSize(10)
                             .build()

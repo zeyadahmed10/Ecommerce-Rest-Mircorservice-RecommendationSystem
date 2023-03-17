@@ -75,7 +75,7 @@ public class KeycloakService {
     }
 
     public UsersResource getInstance(){
-        return KeycloakConfig.getInstance().realm(KeycloakConfig.realm).users();
+        return KeycloakConfig.getInstance().realm(KeycloakConfig.REALM).users();
     }
 
 
