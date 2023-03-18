@@ -18,4 +18,5 @@ public class ShoppingCart {
     private String userId;
     private Long productId;
     private Integer quantity;
+    private Double price;
 }
