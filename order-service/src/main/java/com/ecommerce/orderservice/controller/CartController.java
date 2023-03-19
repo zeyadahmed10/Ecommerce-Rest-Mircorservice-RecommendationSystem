@@ -44,13 +44,13 @@ public class CartController {
         return new ResponseEntity<>(new ApiResponse("Succeed",cart),headerGenerator.getHeadersForSuccessPostMethod(request,cart.getId())
                 , HttpStatus.CREATED);
     }
-    @DeleteMapping
+    @DeleteMapping("/{cartId}")
     public ResponseEntity<?> removeCartItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Long cartId){
         cartService.deleteCartItem(cartId);
         return new ResponseEntity<>(new ApiResponse("Succeed"), headerGenerator.getHeadersForSuccessGetMethod(),
                 HttpStatus.OK);
     }
-    @PutMapping
+    @PutMapping("/{cartId}")
     public ResponseEntity<?> updateCartItem(@AuthenticationPrincipal Jwt jwt, @PathVariable Long cartId, @RequestBody @Valid CartDto cartDto, HttpServletRequest request){
         ShoppingCart cart = cartService.updateCartItem(jwt.getSubject(), cartId,cartDto);
         return new ResponseEntity<>(new ApiResponse("Succeed",cart),headerGenerator.getHeadersForSuccessPostMethod(request,cart.getId())
