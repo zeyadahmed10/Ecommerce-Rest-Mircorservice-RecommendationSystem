@@ -9,4 +9,5 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<ShoppingCart,Long> {
     List<ShoppingCart> findAllByUserId(String userId);
     List<ShoppingCart> findAllByUserIdAndProductId(String userId, long productId);
+    void deleteAllByUserId(String userId);
 }
