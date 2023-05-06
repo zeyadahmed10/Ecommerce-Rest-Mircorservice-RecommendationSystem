@@ -72,7 +72,7 @@ public class CartService {
         Double totalPrice = 0.0;
         for(ShoppingCart cartItem : cartItems){
             orderItems.add(new Order(userId, cartItem.getProductId(), cartItem.getQuantity(), cartItem.getPrice()));
-            totalPrice += cartItem.getPrice();
+            totalPrice += (cartItem.getPrice()*cartItem.getQuantity());
         }
         orderDetails.setPrice(totalPrice);
         orderDetails.setAddress(orderDetailsDto.getAddress());
