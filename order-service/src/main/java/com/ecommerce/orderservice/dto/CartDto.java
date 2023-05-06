@@ -15,5 +15,5 @@ public class CartDto {
     private String productName;
     @NotNull
     @Min(value = 0L, message = "The value must be positive")
-    private Integer Quantity;
+    private Integer quantity;
 }
